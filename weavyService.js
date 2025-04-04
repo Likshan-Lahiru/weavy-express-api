@@ -11,27 +11,23 @@ const weavy = axios.create({
 
 
 const createUser = async (data) => {
-    return await weavy.post('/users/create/', data);
+    return await weavy.post('/api/users', data);
 };
-
 
 const getUsers = async () => {
-    return await weavy.get('users/getAllUsers');
+    return await weavy.get('/api/users');
 };
-
 
 const getUserById = async (id) => {
-    return await weavy.get(`users/getUserById/${id}`);
+    return await weavy.get(`/api/users/${id}`);
 };
-
 
 const updateUser = async (id, data) => {
-    return await weavy.patch(`users/update/${id}`, data);
+    return await weavy.put(`/api/users/${id}`, data);
 };
 
-
 const deleteUser = async (id) => {
-    return await weavy.delete(`users/delete/${id}`);
+    return await weavy.delete(`/api/users/${id}`);
 };
 
 module.exports = {

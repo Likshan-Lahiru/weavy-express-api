@@ -14,13 +14,15 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+const cors = require('cors');
+app.use(cors());
 
 app.post('/users', async (req, res) => {
     try {
         const response = await createUser(req.body);
         res.status(201).json(response.data);
     } catch (err) {
-        res.status(err.response?.status || 500).json(err.response?.data || { error: 'Error creating user' });
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -45,7 +47,7 @@ app.get('/users/:id', async (req, res) => {
 });
 
 
-app.patch('/users/:id', async (req, res) => {
+app.put('/users/:id', async (req, res) => {
     try {
         const response = await updateUser(req.params.id, req.body);
         res.json(response.data);
@@ -57,13 +59,12 @@ app.patch('/users/:id', async (req, res) => {
 
 app.delete('/users/:id', async (req, res) => {
     try {
-        const response = await deleteUser(req.params.id);
+        await deleteUser(req.params.id);
         res.json({ message: 'User deleted successfully' });
     } catch (err) {
         res.status(err.response?.status || 500).json(err.response?.data || { error: 'Error deleting user' });
     }
 });
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
